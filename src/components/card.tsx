@@ -1,14 +1,21 @@
 import { socialMedia } from '@/utils/social-media';
-import { ChevronDoubleUpIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
+import { ComponentPropsWithoutRef } from 'react';
 import { SocialIcon } from 'react-social-icons';
+
+interface ICardProps extends ComponentPropsWithoutRef<'div'> {
+	url: 'github' | 'linkedin' | 'instagram' | 'youtube';
+	followers?: number;
+	name: string;
+	privateNumber?: boolean;
+}
 
 export function Card({
 	url,
+	followers,
 	name,
-}: {
-	url: 'github' | 'linkedin' | 'instagram' | 'youtube';
-	name: string;
-}) {
+	children,
+	privateNumber,
+}: ICardProps) {
 	return (
 		<div
 			className={
@@ -25,15 +32,14 @@ export function Card({
 			</div>
 
 			<div className='text-center'>
-				<h2 className='font-bold text-5xl'>1987</h2>
+				<h2 className={`font-bold text-5xl ${privateNumber && 'blur-xl'}`}>
+					{followers || 99}
+				</h2>
 				<p className='uppercase opacity-30 tracking-widest'>Seguidores</p>
 			</div>
 
-			<div
-				className={`flex items-center gap-1 font-semibold text-sm text-[#29A88F]`}
-			>
-				<ChevronDoubleUpIcon className='h-5 w-5' />
-				<span>29 Hoje</span>
+			<div className={`flex items-center gap-1 font-semibold`}>
+				{children} {privateNumber && <span>🔒 privado</span>}
 			</div>
 		</div>
 	);
